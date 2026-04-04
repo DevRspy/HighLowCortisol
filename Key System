@@ -1,0 +1,131 @@
+local TweenService = game:GetService("TweenService")
+
+-- Main GUI Setup
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local KeyInput = Instance.new("TextBox")
+local SubmitBtn = Instance.new("TextButton")
+local GetKeyBtn = Instance.new("TextButton")
+local CloseBtn = Instance.new("TextButton") -- Ang "X" Button
+
+-- UI Settings
+local KeyLink = "https://link-to-your-ads.com" -- Palitan mo ito
+local CorrectKey = "MOBILE-DEV-2026"
+
+ScreenGui.Name = "KeySystemWithClose"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
+
+-- Frame Design
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+MainFrame.Position = UDim2.new(0.5, -135, 0.5, -80)
+MainFrame.Size = UDim2.new(0, 270, 0, 160)
+MainFrame.BorderSizePixel = 0
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
+
+-- CLOSE BUTTON (X) - Upper Right
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Parent = MainFrame
+CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50) -- Red
+CloseBtn.Position = UDim2.new(1, -30, 0, 5) -- Upper Right
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 14
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 5)
+CloseCorner.Parent = CloseBtn
+
+-- Title
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 10)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "KEY SYSTEM"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18
+
+-- Input Box
+KeyInput.Parent = MainFrame
+KeyInput.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+KeyInput.Position = UDim2.new(0.1, 0, 0.4, 0)
+KeyInput.Size = UDim2.new(0.8, 0, 0, 35)
+KeyInput.Font = Enum.Font.Gotham
+KeyInput.PlaceholderText = "Paste Key Here..."
+KeyInput.Text = ""
+KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyInput.TextSize = 14
+
+local KeyCorner = Instance.new("UICorner")
+KeyCorner.Parent = KeyInput
+
+-- GET KEY BUTTON
+GetKeyBtn.Parent = MainFrame
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+GetKeyBtn.Position = UDim2.new(0.1, 0, 0.72, 0)
+GetKeyBtn.Size = UDim2.new(0.38, 0, 0, 32)
+GetKeyBtn.Font = Enum.Font.GothamBold
+GetKeyBtn.Text = "GET KEY"
+GetKeyBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+GetKeyBtn.TextSize = 12
+
+local GetCorner = Instance.new("UICorner")
+GetCorner.Parent = GetKeyBtn
+
+-- SUBMIT BUTTON
+SubmitBtn.Parent = MainFrame
+SubmitBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
+SubmitBtn.Position = UDim2.new(0.52, 0, 0.72, 0)
+SubmitBtn.Size = UDim2.new(0.38, 0, 0, 32)
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.Text = "SUBMIT"
+SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitBtn.TextSize = 12
+
+local SubCorner = Instance.new("UICorner")
+SubCorner.Parent = SubmitBtn
+
+-- --- LOGIC ---
+
+-- Close Logic
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Get Key Logic (Copy to Clipboard)
+GetKeyBtn.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(KeyLink)
+        GetKeyBtn.Text = "COPIED!"
+        task.wait(2)
+        GetKeyBtn.Text = "GET KEY"
+    else
+        GetKeyBtn.Text = "ERROR"
+    end
+end)
+
+-- Submit Logic
+SubmitBtn.MouseButton1Click:Connect(function()
+    if KeyInput.Text == CorrectKey then
+        SubmitBtn.Text = "SUCCESS"
+        SubmitBtn.BackgroundColor3 = Color3.fromRGB(40, 200, 100)
+        task.wait(1)
+        ScreenGui:Destroy()
+        -- Dito mo ilagay ang main script mo
+        print("Unlocked!")
+    else
+        SubmitBtn.Text = "WRONG"
+        SubmitBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        task.wait(1.5)
+        SubmitBtn.Text = "SUBMIT"
+        SubmitBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
+    end
+end)
